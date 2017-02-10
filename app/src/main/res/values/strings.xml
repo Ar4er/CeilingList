@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">калькулятор потолка</string>
+    <string name="title_size_ansver">Задать размер комнаты в миллиметрах </string>
+    <string name="title_area">общая площадь помещения:</string>
+    <string name="title_ud">количество стенового профиля(ud-28): </string>
+    <string name="title_cd">колличество основного профиля:(сd-27/60):</string>
+    <string name="title_locks">замки:</string>
+    <string name="title_suspends">подвесы:</string>
+    <string name="title_panels">количество листов гипсокартона:</string>
+    <string name="x_side">по оси Х</string>
+    <string name="y_side">по оси У</string>
+    <string name="calculate_order">посчитать</string>
+    <string name="seiling_list_title">список потолков</string>
+    <string name="calculator_button_text">калькулировать новый потолок</string>
+</resources>
