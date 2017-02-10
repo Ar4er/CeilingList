@@ -17,6 +17,8 @@ public class SeilingLab {
     private SeilingLab(Context context){
         mContext = context;
        mList = new ArrayList<>();
+        mList.add(new SuspendSeiling(3000, 5000));
+        mList.add(new SuspendSeiling(4000, 8000));
 
     }
 

@@ -64,7 +64,7 @@ public class CalculatorFragment extends Fragment {
         clulateOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSuspendSeiling = new SuspendSeiling(Integer.parseInt(x), Integer.parseInt(y), 1);
+                mSuspendSeiling = new SuspendSeiling(Integer.parseInt(x), Integer.parseInt(y));
                 SeilingLab.getSeilingLab(getActivity()).getList().add(mSuspendSeiling);
                 mAreaButton.setText(String.format("%.2f m2", mSuspendSeiling.getArea()));
                 mUdButton.setText(mSuspendSeiling.getUd28().toString());

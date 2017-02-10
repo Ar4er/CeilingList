@@ -19,7 +19,7 @@ public class SuspendSeiling {
 
 
 
-    private  int mCount;
+
     private Ud28 mUd28;
     private Cd60 mCd;
     private Lock mLock;
@@ -31,8 +31,8 @@ public class SuspendSeiling {
     private Date mDate;
     UUID mId;
 
-    public SuspendSeiling(int x, int y, int count) {
-        mCount = count;
+    public SuspendSeiling(int x, int y) {
+
         mX = x;
         mY = y;
         mUd28 = new Ud28(mX, mY);
@@ -42,7 +42,7 @@ public class SuspendSeiling {
         mPanel = new Panel(mX, mY);
         mDate = new Date();
         mId = UUID.randomUUID();
-        count++;
+
     }
 
     public int getX() {
@@ -85,7 +85,7 @@ public class SuspendSeiling {
 
     @Override
     public String toString() {
-        return String.format("№%d потолок %d * %d. %.2f M2",  mCount, mX, mY, getArea());
+        return String.format(" потолок %d * %d. %.2f M2",   mX, mY, getArea());
     }
 
     public String getFormatDate(){
