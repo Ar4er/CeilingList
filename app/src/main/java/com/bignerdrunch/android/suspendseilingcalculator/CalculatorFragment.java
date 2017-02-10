@@ -16,7 +16,7 @@ import android.widget.EditText;
 
 public class CalculatorFragment extends Fragment {
 
-    private SuspendSeiling mSuspendSeiling;
+    private SuspendCeiling mSuspendCeiling;
     private String x;
     private  String y;
     private EditText editX;
@@ -64,14 +64,14 @@ public class CalculatorFragment extends Fragment {
         clulateOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSuspendSeiling = new SuspendSeiling(Integer.parseInt(x), Integer.parseInt(y));
-                SeilingLab.getSeilingLab(getActivity()).getList().add(mSuspendSeiling);
-                mAreaButton.setText(String.format("%.2f m2", mSuspendSeiling.getArea()));
-                mUdButton.setText(mSuspendSeiling.getUd28().toString());
-                mCd60Button.setText(mSuspendSeiling.getCd().toString());
-                mSuspendsButton.setText(mSuspendSeiling.getSuspend().toString());
-                mLocksButton.setText(mSuspendSeiling.getLock().toString());
-                mPanelsButton.setText(mSuspendSeiling.getPanel().toString());
+                mSuspendCeiling = new SuspendCeiling(Integer.parseInt(x), Integer.parseInt(y));
+                CeilingLab.getCeilingLab(getActivity()).getList().add(mSuspendCeiling);
+                mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
+                mUdButton.setText(mSuspendCeiling.getUd28().toString());
+                mCd60Button.setText(mSuspendCeiling.getCd().toString());
+                mSuspendsButton.setText(mSuspendCeiling.getSuspend().toString());
+                mLocksButton.setText(mSuspendCeiling.getLock().toString());
+                mPanelsButton.setText(mSuspendCeiling.getPanel().toString());
             }
         });
 

@@ -14,11 +14,7 @@ import java.util.UUID;
  * Created by ar4er25 on 2/10/2017.
  */
 
-public class SuspendSeiling {
-
-
-
-
+public class SuspendCeiling {
 
     private Ud28 mUd28;
     private Cd60 mCd;
@@ -31,7 +27,7 @@ public class SuspendSeiling {
     private Date mDate;
     UUID mId;
 
-    public SuspendSeiling(int x, int y) {
+    public SuspendCeiling(int x, int y) {
 
         mX = x;
         mY = y;
@@ -42,7 +38,7 @@ public class SuspendSeiling {
         mPanel = new Panel(mX, mY);
         mDate = new Date();
         mId = UUID.randomUUID();
-
+        mArea = mX*mY/ 1000000.0;
     }
 
     public int getX() {
@@ -63,16 +59,14 @@ public class SuspendSeiling {
         return mSuspend;
     }
 
-    public Lock getLock() {
+    public Lock getLock() {return mLock;}
 
-        return mLock;
-    }
     public Ud28 getUd28() {
         return mUd28;
     }
 
     public double getArea() {
-        return mX * mY / 1000000.0;
+        return mArea;
     }
 
     public Cd60 getCd() {

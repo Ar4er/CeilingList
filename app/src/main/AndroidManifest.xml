@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".CalculatorActivity"
                   android:label="@string/calculator_button_text"/>
+        <activity android:name=".PagerCeilingsActivity"/>
 
     </application>
 

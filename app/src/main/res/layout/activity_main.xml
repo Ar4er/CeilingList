@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"/>
 
     <fragment
-        android:name="com.bignerdrunch.android.suspendseilingcalculator.SeilingListFragment"
+        android:name="com.bignerdrunch.android.suspendseilingcalculator.CeilingListFragment"
         android:id="@+id/seiling_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

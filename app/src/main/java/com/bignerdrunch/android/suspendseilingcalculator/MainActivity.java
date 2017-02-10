@@ -16,7 +16,7 @@ public class MainActivity extends FragmentActivity {
         Fragment listFragment = fm.findFragmentById(R.id.activity_main);
 
         if (listFragment==null){
-            listFragment = new SeilingListFragment();
+            listFragment = new CeilingListFragment();
             fm.beginTransaction().add(R.id.activity_main, listFragment).commit();
 
         }
