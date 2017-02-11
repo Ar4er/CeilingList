@@ -12,4 +12,6 @@
     <string name="calculate_order">посчитать</string>
     <string name="seiling_list_title">список потолков</string>
     <string name="calculator_button_text">калькулировать новый потолок</string>
+    <string name="delete_string">удалить</string>
+    <string name="locale_area">%.2f m2</string>
 </resources>

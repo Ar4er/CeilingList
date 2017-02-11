@@ -79,8 +79,12 @@ public class SuspendCeiling {
 
     @Override
     public String toString() {
-        return String.format(" потолок %d * %d. %.2f M2",   mX, mY, getArea());
+        return String.format(" потолок %d * %d",   mX, mY);
     }
+
+     public String areaToString(){
+         return mArea+" M2";
+     }
 
     public String getFormatDate(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy");
