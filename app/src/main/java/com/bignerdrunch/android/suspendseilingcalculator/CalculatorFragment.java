@@ -1,7 +1,9 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.EditText;
  */
 
 public class CalculatorFragment extends Fragment {
+    public static final String EXCEP_DIALOG = "com.bignerdrunch.android.suspendseilingcalculator.EXCEP_DIALOG";
 
     private SuspendCeiling mSuspendCeiling;
     private String x;
@@ -64,14 +67,26 @@ public class CalculatorFragment extends Fragment {
         clulateOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSuspendCeiling = new SuspendCeiling(Integer.parseInt(x), Integer.parseInt(y));
-                CeilingLab.getCeilingLab(getActivity()).getList().add(mSuspendCeiling);
-                mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
-                mUdButton.setText(mSuspendCeiling.getUd28().toString());
-                mCd60Button.setText(mSuspendCeiling.getCd().toString());
-                mSuspendsButton.setText(mSuspendCeiling.getSuspend().toString());
-                mLocksButton.setText(mSuspendCeiling.getLock().toString());
-                mPanelsButton.setText(mSuspendCeiling.getPanel().toString());
+                try {
+                    int intX = Integer.parseInt(x);
+                    int intY = Integer.parseInt(y);
+                    if (intX<600||intY<600){
+                        throw new NumberFormatException();
+                    }
+                    mSuspendCeiling = new SuspendCeiling(Integer.parseInt(x), Integer.parseInt(y));
+                    CeilingLab.getCeilingLab(getActivity()).getList().add(mSuspendCeiling);
+                    mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
+                    mUdButton.setText(mSuspendCeiling.getUd28().toString());
+                    mCd60Button.setText(mSuspendCeiling.getCd().toString());
+                    mSuspendsButton.setText(mSuspendCeiling.getSuspend().toString());
+                    mLocksButton.setText(mSuspendCeiling.getLock().toString());
+                    mPanelsButton.setText(mSuspendCeiling.getPanel().toString());
+                } catch (NumberFormatException e) {
+
+                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                    OrderExceptionDialog dialog = new OrderExceptionDialog();
+                    dialog.show(manager, EXCEP_DIALOG);
+                }
             }
         });
 

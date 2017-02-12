@@ -1,6 +1,6 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by ar4er25 on 2/10/2017.
