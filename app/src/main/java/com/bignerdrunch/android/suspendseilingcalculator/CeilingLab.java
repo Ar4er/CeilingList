@@ -18,9 +18,10 @@ public class CeilingLab {
     private CeilingLab(Context context){
         mContext = context;
        mList = new ArrayList<>();
-        mList.add(new SuspendCeiling(3000, 5000));
-        mList.add(new SuspendCeiling(4000, 8000));
+    }
 
+    public void addCeiling(SuspendCeiling sc){
+        mList.add(sc);
     }
 
     public static CeilingLab getCeilingLab(Context context){

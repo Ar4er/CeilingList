@@ -28,7 +28,7 @@ public class SuspendCeiling {
     UUID mId;
 
     public SuspendCeiling(int x, int y) {
-
+        mId = UUID.randomUUID();
         mX = x;
         mY = y;
         mUd28 = new Ud28(mX, mY);
@@ -37,9 +37,10 @@ public class SuspendCeiling {
         mSuspend = new Suspend(mX, mY);
         mPanel = new Panel(mX, mY);
         mDate = new Date();
-        mId = UUID.randomUUID();
         mArea = mX*mY/ 1000000.0;
     }
+
+
 
     public int getX() {
         return mX;

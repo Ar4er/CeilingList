@@ -1,16 +1,21 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.UUID;
 
 /**
  * Created by ar4er25 on 2/10/2017.
@@ -33,17 +38,22 @@ public class CalculatorFragment extends Fragment {
     private Button mPanelsButton;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.calculator_fragment , container, false);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         editX = (EditText) v.findViewById(R.id.edit_X);
         editX.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
             @Override
             public void afterTextChanged(Editable s) {
                 x = s.toString();
@@ -54,10 +64,8 @@ public class CalculatorFragment extends Fragment {
         editY.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
             @Override
             public void afterTextChanged(Editable s) {
                 y = s.toString();
@@ -73,8 +81,9 @@ public class CalculatorFragment extends Fragment {
                     if (intX<600||intY<600){
                         throw new NumberFormatException();
                     }
-                    mSuspendCeiling = new SuspendCeiling(Integer.parseInt(x), Integer.parseInt(y));
-                    CeilingLab.getCeilingLab(getActivity()).getList().add(mSuspendCeiling);
+
+                    mSuspendCeiling = new SuspendCeiling(intX, intY);
+                    CeilingLab.getCeilingLab(getActivity()).addCeiling(mSuspendCeiling);
                     mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
                     mUdButton.setText(mSuspendCeiling.getUd28().toString());
                     mCd60Button.setText(mSuspendCeiling.getCd().toString());
@@ -98,5 +107,17 @@ public class CalculatorFragment extends Fragment {
         mPanelsButton = (Button)v.findViewById(R.id.panels_button);
 
         return v;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                if (NavUtils.getParentActivityName(getActivity())!=null){
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

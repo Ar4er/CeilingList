@@ -1,24 +1,11 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
-import android.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.app.FragmentManager;
 
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
-public class MainActivity extends FragmentActivity {
-
+public class MainActivity extends SingleFragmentActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        FragmentManager fm = getFragmentManager();
-        Fragment listFragment = fm.findFragmentById(R.id.activity_main);
-
-        if (listFragment==null){
-            listFragment = new CeilingListFragment();
-            fm.beginTransaction().add(R.id.activity_main, listFragment).commit();
-
-        }
+    public Fragment createFagment() {
+       return new CeilingListFragment();
     }
 }

@@ -11,9 +11,11 @@
     <string name="y_side">по оси У</string>
     <string name="calculate_order">посчитать</string>
     <string name="seiling_list_title">список потолков</string>
-    <string name="calculator_button_text">калькулировать новый потолок</string>
+    <string name="new_ceiling">рассчитать новый потолок</string>
     <string name="delete_string">удалить</string>
     <string name="locale_area">%.2f m2</string>
     <string name="eror_dialog_title">ошибка ввода</string>
     <string name="error_dialog_textview">ширина и длинна комнаты не может быть меньше 600мм</string>
+    <string name="calculator_button_text">рассчитать новый потолок</string>
+
 </resources>

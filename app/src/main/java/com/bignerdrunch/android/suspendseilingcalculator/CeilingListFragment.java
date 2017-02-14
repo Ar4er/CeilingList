@@ -1,10 +1,13 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
-import android.app.ListFragment;
+import android.support.v4.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,19 +43,34 @@ public class CeilingListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mCeilings = CeilingLab.getCeilingLab(getActivity()).getList();
         CeilingListAdapter adapter = new CeilingListAdapter(mCeilings);
         setListAdapter(adapter);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case (R.id.menu_new_ceiling):
+            Intent intent = new Intent(getActivity(), CalculatorActivity.class);
+            startActivity(intent);
+                return true;
+       default:
+          return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.list_menu, menu);
+    }
+
     private class CeilingListAdapter extends ArrayAdapter<SuspendCeiling>{
-
-
-
         public CeilingListAdapter( ArrayList<SuspendCeiling> Ceilings) {
             super(getActivity(), 0, Ceilings);
         }
-
         @NonNull
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -61,9 +79,6 @@ public class CeilingListFragment extends ListFragment {
                         .getLayoutInflater()
                         .inflate(R.layout.list_item_layout, parent, false);
             }
-
-
-
             final SuspendCeiling sc = getItem(position);
 
             TextView areaTextView = (TextView) convertView.findViewById(R.id.area_string);

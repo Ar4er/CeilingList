@@ -7,11 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:name="com.bignerdrunch.android.suspendseilingcalculator.ButtonCalculatorFragment"
-        android:id="@+id/buttom_calculator_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
 
     <fragment
         android:name="com.bignerdrunch.android.suspendseilingcalculator.CeilingListFragment"
