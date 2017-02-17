@@ -2,6 +2,9 @@ package com.bignerdrunch.android.suspendseilingcalculator.details;
 
 import com.bignerdrunch.android.suspendseilingcalculator.Detail;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by ar4er25 on 2/10/2017.
  */
@@ -10,6 +13,10 @@ public class Lock extends Detail {
 
     public Lock(int x, int y) {
         super(x, y);
+    }
+
+    public Lock(JSONObject json, String key_count) throws JSONException {
+        super(json, key_count);
     }
 
     @Override

@@ -2,6 +2,9 @@ package com.bignerdrunch.android.suspendseilingcalculator.details;
 
 import com.bignerdrunch.android.suspendseilingcalculator.Detail;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by ar4er25 on 2/10/2017.
  */
@@ -12,6 +15,10 @@ public class Cd60 extends Detail {
         super(x, y);
         countOfDownSIde(x, y);
         countOfUpSIde(x, y);
+    }
+
+    public Cd60(JSONObject jsonObject, String cd60) throws JSONException {
+        super(jsonObject, cd60);
     }
 
     @Override

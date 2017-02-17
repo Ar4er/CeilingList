@@ -2,6 +2,9 @@ package com.bignerdrunch.android.suspendseilingcalculator;
 
 import android.content.Context;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -10,15 +13,30 @@ import java.util.UUID;
  */
 
 public class CeilingLab {
+    private static final String FILENAME = "ceilings.json";
 
     private static CeilingLab sCeilingLab;
     private Context mContext;
     private ArrayList<SuspendCeiling> mList;
+    private CeilingJSONSerializer mSerializer;
 
     private CeilingLab(Context context){
         mContext = context;
-       mList = new ArrayList<>();
+       mSerializer = new CeilingJSONSerializer(context, FILENAME);
+        try {
+            mList = mSerializer.loadCrimes();
+        } catch (Exception e) {
+            mList = new ArrayList<>();
+         }
+
     }
+    public void saveList(){
+        try {
+            mSerializer.saveCeylings(mList);
+        }catch (Exception e){}
+    }
+
+
 
     public void addCeiling(SuspendCeiling sc){
         mList.add(sc);

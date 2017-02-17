@@ -3,7 +3,9 @@ package com.bignerdrunch.android.suspendseilingcalculator;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,6 +44,7 @@ public class SetOfCountsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UUID args = (UUID)getArguments().getSerializable(UUID_EXTRA);
         mSuspendCeiling = CeilingLab.getCeilingLab(getActivity()).getById(args);
     }
@@ -50,6 +53,9 @@ public class SetOfCountsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.set_of_items, container, false);
+        if (NavUtils.getParentActivityName(getActivity())!=null) {
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         mAreaButton = (Button) v.findViewById(R.id.area_button);
         mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
@@ -65,5 +71,19 @@ public class SetOfCountsFragment extends Fragment {
         mPannelsRutton.setText(mSuspendCeiling.getPanel().toString());
 
         return v;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                if (NavUtils.getParentActivityName(getActivity())!=null){
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
+
+
     }
 }

@@ -17,5 +17,5 @@
     <string name="eror_dialog_title">ошибка ввода</string>
     <string name="error_dialog_textview">ширина и длинна комнаты не может быть меньше 600мм</string>
     <string name="calculator_button_text">рассчитать новый потолок</string>
-
+    <string name="empty_list_text">Список пуст</string>
 </resources>

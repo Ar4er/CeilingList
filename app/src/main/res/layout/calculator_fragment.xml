@@ -31,7 +31,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:hint="@string/x_side"
-                android:inputType="number"/>
+                android:inputType="phone"/>
             <EditText
                 android:id="@+id/edit_Y"
                 android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:hint="@string/y_side"
-                android:inputType="number"/>
+                android:inputType="phone"/>
         </LinearLayout>
 
         <Button

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,6 +51,20 @@ public class CeilingListFragment extends ListFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+         View v = inflater.inflate(R.layout.list_fragment, container, false);
+        Button mNewCeilingButton =(Button) v.findViewById(R.id.new_button);
+        mNewCeilingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CalculatorActivity.class);
+                startActivity(intent);
+            }
+        });
+         return v;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case (R.id.menu_new_ceiling):
@@ -89,7 +104,9 @@ public class CeilingListFragment extends ListFragment {
         }
     }
 
-
-
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        CeilingLab.getCeilingLab(getActivity()).saveList();
+    }
 }
