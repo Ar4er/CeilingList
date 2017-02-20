@@ -18,7 +18,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.UUID;
+import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.CdImageDialog;
+import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.LockImageDialog;
+import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.PanelImageDialog;
+import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.SingleImageDialog;
+import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.SuspendImageDialog;
+import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.UdImageDialog;
 
 /**
  * Created by ar4er25 on 2/10/2017.
@@ -26,7 +31,7 @@ import java.util.UUID;
 
 public class CalculatorFragment extends Fragment {
     public static final String EXCEP_DIALOG = "com.bignerdrunch.android.suspendseilingcalculator.EXCEP_DIALOG";
-
+    public static final String CD_IMAGE = "com.bignerdrunch.android.suspendseilingcalculator.cd-image";
     private SuspendCeiling mSuspendCeiling;
     private String x;
     private  String y;
@@ -47,7 +52,7 @@ public class CalculatorFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.calculator_fragment , container, false);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,10 +94,40 @@ public class CalculatorFragment extends Fragment {
                     CeilingLab.getCeilingLab(getActivity()).addCeiling(mSuspendCeiling);
                     mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
                     mUdButton.setText(mSuspendCeiling.getUd28().toString());
+                    mUdButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog(UdImageDialog.getNewInstance(mSuspendCeiling.getUd28().toString()), SetOfCountsFragment.UD_IMAGE);
+                        }
+                    });
                     mCd60Button.setText(mSuspendCeiling.getCd().toString());
+                    mCd60Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           showDialog(CdImageDialog.getNewInstance(mSuspendCeiling.getCd().toString()), SetOfCountsFragment.CD_IMAGE);
+                        }
+                    });
                     mSuspendsButton.setText(mSuspendCeiling.getSuspend().toString());
+                    mSuspendsButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog(SuspendImageDialog.getNewInstance(mSuspendCeiling.getSuspend().toString()), SetOfCountsFragment.SUSPEND_IMAGE);
+                        }
+                    });
                     mLocksButton.setText(mSuspendCeiling.getLock().toString());
+                    mLocksButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog(LockImageDialog.getNewInstance(mSuspendCeiling.getLock().toString()), SetOfCountsFragment.LOCK_IMAGE);
+                        }
+                    });
                     mPanelsButton.setText(mSuspendCeiling.getPanel().toString());
+                    mPanelsButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialog(PanelImageDialog.getNewInstance(mSuspendCeiling.getPanel().toString()), SetOfCountsFragment.LOCK_IMAGE);
+                        }
+                    });
                 } catch (NumberFormatException e) {
 
                     FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -134,6 +169,10 @@ public class CalculatorFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+    public void showDialog(SingleImageDialog dialog, String TAG){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        dialog.show(fm, TAG);
     }
 
 }

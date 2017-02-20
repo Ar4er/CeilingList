@@ -3,6 +3,8 @@ package com.bignerdrunch.android.suspendseilingcalculator;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by ar4er25 on 2/10/2017.
  */
@@ -30,8 +32,16 @@ public abstract class Detail  {
 
     @Override
     public String toString() {
-        return count +" штук";
+         int l =(count+"").toCharArray().length;
+        char c = (count+"").toCharArray()[l-1];
+        if (c=='1') {
+            return count + " штука";
+        }
+        if (c=='2'|c=='3'|c=='4')
+            return count + " штуки";
+        else return count + " штук";
     }
+
 
     public JSONObject toJSON(String s) throws JSONException{
         JSONObject json = new JSONObject();

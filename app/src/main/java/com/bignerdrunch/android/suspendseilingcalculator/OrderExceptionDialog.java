@@ -23,6 +23,5 @@ public class OrderExceptionDialog extends DialogFragment {
                  setView(v).
                  setTitle(R.string.eror_dialog_title).
                  setPositiveButton(android.R.string.ok, null).create();
-
     }
 }

@@ -18,4 +18,9 @@
     <string name="error_dialog_textview">ширина и длинна комнаты не может быть меньше 600мм</string>
     <string name="calculator_button_text">рассчитать новый потолок</string>
     <string name="empty_list_text">Список пуст</string>
+    <string name="cd_name">CD-27/60</string>
+    <string name="ud_name">UD-28</string>
+    <string name="suspend_name">подвес</string>
+    <string name="lock_name">замок</string>
+    <string name="panel_name">гипсокартон</string>
 </resources>

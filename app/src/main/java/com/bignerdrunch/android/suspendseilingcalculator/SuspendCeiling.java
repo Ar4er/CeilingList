@@ -59,7 +59,7 @@ public class SuspendCeiling {
         mDate = new Date(json.getLong(MDATE));
         mArea = json.getDouble(AREA);
         mCd = new Cd60(json.getJSONObject(CD60), CD60);
-        mUd28 = new Ud28(json.getJSONObject(CD60), CD60);
+        mUd28 = new Ud28(json.getJSONObject(UD28), UD28);
         mLock = new Lock(json.getJSONObject(LOCK), LOCK);
         mPanel = new Panel(json.getJSONObject(PANEL), PANEL);
         mSuspend = new Suspend(json.getJSONObject(SUSPEND), SUSPEND);

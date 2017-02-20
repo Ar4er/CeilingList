@@ -62,4 +62,7 @@ public class CeilingLab {
         }
         return null;
     }
+    public void deliteCeiling(SuspendCeiling sc){
+        mList.remove(sc);
+    }
 }

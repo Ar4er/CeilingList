@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -51,7 +53,7 @@ public class CeilingListFragment extends ListFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          View v = inflater.inflate(R.layout.list_fragment, container, false);
         Button mNewCeilingButton =(Button) v.findViewById(R.id.new_button);
         mNewCeilingButton.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +61,50 @@ public class CeilingListFragment extends ListFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CalculatorActivity.class);
                 startActivity(intent);
+            }
+        });
+        ListView listView = (ListView)v.findViewById(android.R.id.list);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+              MenuInflater inflater1 = mode.getMenuInflater();
+                inflater1.inflate(R.menu.ceiling_list_item_context, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.menu_item_delete_ceiling:
+                     CeilingListAdapter adapter = (CeilingListAdapter) getListAdapter();
+                        CeilingLab ceilingLab = CeilingLab.getCeilingLab(getActivity());
+                        for (int i = adapter.getCount()-1; i >=0 ; i--) {
+                           if (getListView().isItemChecked(i)){
+                               ceilingLab.deliteCeiling(adapter.getItem(i));
+                           }
+                        }
+                        mode.finish();
+                        adapter.notifyDataSetChanged();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
             }
         });
          return v;
