@@ -97,6 +97,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:clickable="false"
+            android:textStyle="italic"
+            android:textSize="30sp"
             android:background="@color/fbutton_color_clouds"
             android:visibility="invisible"/>
       </LinearLayout>

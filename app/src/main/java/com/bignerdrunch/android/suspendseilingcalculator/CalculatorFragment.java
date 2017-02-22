@@ -36,6 +36,9 @@ public class CalculatorFragment extends Fragment {
     public static final String EXCEP_DIALOG = "com.bignerdrunch.android.suspendseilingcalculator.EXCEP_DIALOG";
      public static final String RENAME_DIALOG = "com.bignerdrunch.android.suspendseilingcalculator.CalculatorFragment.RENAME_DIALOG";
     public static final int REQUEST_NAME = 0;
+    private static final String KEY_VISIBLE = "visible";
+    private static final String KEY_CEILING  = "ceyling_KEY";
+    private boolean isVisible;
     private SuspendCeiling mSuspendCeiling;
     private String x;
     private  String y;
@@ -58,14 +61,22 @@ public class CalculatorFragment extends Fragment {
     private TextView mPanelTv;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_VISIBLE, isVisible);
+        outState.putSerializable(KEY_CEILING, mSuspendCeiling);
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+    public void onCreate( Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        setRetainInstance(true);
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,   Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.calculator_fragment , container, false);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         editX = (EditText) v.findViewById(R.id.edit_X);
@@ -96,74 +107,18 @@ public class CalculatorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
+
                     int intX = Integer.parseInt(x);
                     int intY = Integer.parseInt(y);
                     if (intX<600||intY<600){
                         throw new NumberFormatException();
                     }
-
                     mSuspendCeiling = new SuspendCeiling(intX, intY);
+                    drowUI();
+                    isVisible = true;
                     CeilingLab.getCeilingLab(getActivity()).addCeiling(mSuspendCeiling);
-                    mNameTextView.setText(mSuspendCeiling.getName());
-                    mNameTextView.setVisibility(View.VISIBLE);
-                    mRenameButton.setVisibility(View.VISIBLE);
-                    mRenameButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            FragmentManager fm = getActivity().getSupportFragmentManager();
-                            RenameDialog dialog = RenameDialog.newInstance(mSuspendCeiling.getName());
-                            dialog.setTargetFragment(CalculatorFragment.this, REQUEST_NAME);
-                            dialog.show(fm, RENAME_DIALOG);
-                        }
-                    });
-                    mAreaTv.setVisibility(View.VISIBLE);
-                    mSuspendTv.setVisibility(View.VISIBLE);
-                    mLockTv.setVisibility(View.VISIBLE);
-                    mPanelTv.setVisibility(View.VISIBLE);
-                    mCdTv.setVisibility(View.VISIBLE);
-                    mUdTv.setVisibility(View.VISIBLE);
-                    mAreaButton.setVisibility(View.VISIBLE);
-                    mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
-                    mUdButton.setText(mSuspendCeiling.getUd28().toString());
-                    mUdButton.setVisibility(View.VISIBLE);
-                    mUdButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDialog(UdImageDialog.getNewInstance(mSuspendCeiling.getUd28().toString()), SetOfCountsFragment.UD_IMAGE);
-                        }
-                    });
-                    mCd60Button.setText(mSuspendCeiling.getCd().toString());
-                    mCd60Button.setVisibility(View.VISIBLE);
-                    mCd60Button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                           showDialog(CdImageDialog.getNewInstance(mSuspendCeiling.getCd().toString()), SetOfCountsFragment.CD_IMAGE);
-                        }
-                    });
-                    mSuspendsButton.setText(mSuspendCeiling.getSuspend().toString());
-                    mSuspendsButton.setVisibility(View.VISIBLE);
-                    mSuspendsButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDialog(SuspendImageDialog.getNewInstance(mSuspendCeiling.getSuspend().toString()), SetOfCountsFragment.SUSPEND_IMAGE);
-                        }
-                    });
-                    mLocksButton.setText(mSuspendCeiling.getLock().toString());
-                    mLocksButton.setVisibility(View.VISIBLE);
-                    mLocksButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDialog(LockImageDialog.getNewInstance(mSuspendCeiling.getLock().toString()), SetOfCountsFragment.LOCK_IMAGE);
-                        }
-                    });
-                    mPanelsButton.setText(mSuspendCeiling.getPanel().toString());
-                    mPanelsButton.setVisibility(View.VISIBLE);
-                    mPanelsButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDialog(PanelImageDialog.getNewInstance(mSuspendCeiling.getPanel().toString()), SetOfCountsFragment.LOCK_IMAGE);
-                        }
-                    });
+
+
                 } catch (NumberFormatException e) {
 
                     FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -181,7 +136,6 @@ public class CalculatorFragment extends Fragment {
         mPanelsButton = (Button)v.findViewById(R.id.panels_button);
         mNameTextView = (TextView) v.findViewById(R.id.calculator_name_text);
         mRenameButton = (Button) v.findViewById(R.id.calculator_rename_button);
-
         mAreaTv = (TextView) v.findViewById(R.id.calculator_area_title);
         mPanelTv = (TextView) v.findViewById(R.id.calculator_panel_title);
         mCdTv = (TextView) v.findViewById(R.id.calculator_cd_title);
@@ -189,8 +143,78 @@ public class CalculatorFragment extends Fragment {
         mSuspendTv = (TextView) v.findViewById(R.id.calculator_suspend_title);
         mLockTv = (TextView) v.findViewById(R.id.calculator_lock_title);
 
-
+        if (savedInstanceState!=null){
+            isVisible = savedInstanceState.getBoolean(KEY_VISIBLE);
+            mSuspendCeiling =(SuspendCeiling) savedInstanceState.getSerializable(KEY_CEILING);
+             if (isVisible&mSuspendCeiling!=null){
+                 drowUI();
+             }
+        }
         return v;
+    }
+
+    private void drowUI (){
+        mNameTextView.setText(mSuspendCeiling.getName());
+        mSuspendTv.setVisibility(View.VISIBLE);
+        mLockTv.setVisibility(View.VISIBLE);
+        mPanelTv.setVisibility(View.VISIBLE);
+        mCdTv.setVisibility(View.VISIBLE);
+        mUdTv.setVisibility(View.VISIBLE);
+        mAreaButton.setVisibility(View.VISIBLE);
+        mAreaTv.setVisibility(View.VISIBLE);
+        mUdButton.setVisibility(View.VISIBLE);
+        mCd60Button.setVisibility(View.VISIBLE);
+        mSuspendsButton.setVisibility(View.VISIBLE);
+        mLocksButton.setVisibility(View.VISIBLE);
+        mPanelsButton.setVisibility(View.VISIBLE);
+        mNameTextView.setVisibility(View.VISIBLE);
+        mRenameButton.setVisibility(View.VISIBLE);
+        mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
+        mUdButton.setText(mSuspendCeiling.getUd28().toString());
+        mCd60Button.setText(mSuspendCeiling.getCd().toString());
+        mSuspendsButton.setText(mSuspendCeiling.getSuspend().toString());
+        mLocksButton.setText(mSuspendCeiling.getLock().toString());
+        mPanelsButton.setText(mSuspendCeiling.getPanel().toString());
+
+        mRenameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                RenameDialog dialog = RenameDialog.newInstance(mSuspendCeiling.getName());
+                dialog.setTargetFragment(CalculatorFragment.this, REQUEST_NAME);
+                dialog.show(fm, RENAME_DIALOG);
+            }
+        });
+        mUdButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(UdImageDialog.getNewInstance(mSuspendCeiling.getUd28().toString()), SetOfCountsFragment.UD_IMAGE);
+            }
+        });
+        mCd60Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(CdImageDialog.getNewInstance(mSuspendCeiling.getCd().toString()), SetOfCountsFragment.CD_IMAGE);
+            }
+        });
+        mSuspendsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(SuspendImageDialog.getNewInstance(mSuspendCeiling.getSuspend().toString()), SetOfCountsFragment.SUSPEND_IMAGE);
+            }
+        });
+        mLocksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(LockImageDialog.getNewInstance(mSuspendCeiling.getLock().toString()), SetOfCountsFragment.LOCK_IMAGE);
+            }
+        });
+        mPanelsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(PanelImageDialog.getNewInstance(mSuspendCeiling.getPanel().toString()), SetOfCountsFragment.LOCK_IMAGE);
+            }
+        });
     }
 
     @Override
@@ -213,7 +237,6 @@ public class CalculatorFragment extends Fragment {
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
     public void showDialog(SingleImageDialog dialog, String TAG){
@@ -231,4 +254,10 @@ public class CalculatorFragment extends Fragment {
 
         }
     }
+
+
+
+
+
+
 }
