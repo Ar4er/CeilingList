@@ -12,17 +12,27 @@ import android.widget.TextView;
 import com.bignerdrunch.android.suspendseilingcalculator.R;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by ar4er25 on 2/17/2017.
  */
 
 public abstract class SingleImageDialog extends DialogFragment {
+    private UUID mId;
 
+    public SingleImageDialog(){
+        mId = UUID.randomUUID();
+    }
 
     public abstract int getImageId();
     public abstract int getTitle();
     public abstract String getArgKey();
+
+
+    public UUID getmId() {
+        return mId;
+    }
 
     @NonNull
     @Override

@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,6 +116,12 @@ public class SetOfCountsFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.set_of_count_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
@@ -120,6 +129,13 @@ public class SetOfCountsFragment extends Fragment {
                     NavUtils.navigateUpFromSameTask(getActivity());
                 }
                 return true;
+            case R.id.delete_botton_set_menu:
+                CeilingLab.getCeilingLab(getActivity()).deliteCeiling(mSuspendCeiling);
+                ViewPager vp = (ViewPager) getActivity().findViewById(R.id.ceiling_pager);
+                vp.getAdapter().notifyDataSetChanged();
+                NavUtils.navigateUpFromSameTask(getActivity());
+
+
             default: return super.onOptionsItemSelected(item);
         }
     }

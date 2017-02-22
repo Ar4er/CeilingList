@@ -25,6 +25,7 @@ public class PanelImageDialog extends SingleImageDialog {
     public String getArgKey() {
         return EXTRA_PANEL_DESCRIPTION;
     }
+
     public static PanelImageDialog getNewInstance(String description) {
         Bundle args = new Bundle();
         args.putSerializable(EXTRA_PANEL_DESCRIPTION, description);

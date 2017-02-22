@@ -23,4 +23,6 @@
     <string name="suspend_name">подвес</string>
     <string name="lock_name">замок</string>
     <string name="panel_name">гипсокартон</string>
+    <string name="potolok_string">Потолок</string>
+    <string name="dialog_rename_title">Введите название комнаты</string>
 </resources>

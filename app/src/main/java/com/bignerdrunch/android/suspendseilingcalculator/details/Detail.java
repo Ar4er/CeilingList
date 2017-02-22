@@ -1,15 +1,16 @@
-package com.bignerdrunch.android.suspendseilingcalculator;
+package com.bignerdrunch.android.suspendseilingcalculator.details;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by ar4er25 on 2/10/2017.
  */
 
-public abstract class Detail  {
+public abstract class Detail implements Serializable {
 
     private static final String JSON_X = "x";
     private static final String JSON_Y = "y";

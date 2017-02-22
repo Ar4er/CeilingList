@@ -1,5 +1,7 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.CdImageDialog;
 import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.LockImageDialog;
@@ -31,19 +34,28 @@ import com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.UdImageDia
 
 public class CalculatorFragment extends Fragment {
     public static final String EXCEP_DIALOG = "com.bignerdrunch.android.suspendseilingcalculator.EXCEP_DIALOG";
-    public static final String CD_IMAGE = "com.bignerdrunch.android.suspendseilingcalculator.cd-image";
+     public static final String RENAME_DIALOG = "com.bignerdrunch.android.suspendseilingcalculator.CalculatorFragment.RENAME_DIALOG";
+    public static final int REQUEST_NAME = 0;
     private SuspendCeiling mSuspendCeiling;
     private String x;
     private  String y;
     private EditText editX;
     private EditText editY;
     private Button clulateOrderButton;
+    private TextView mNameTextView;
+    private Button mRenameButton;
     private Button mUdButton;
     private Button mAreaButton;
     private Button mCd60Button;
     private Button mLocksButton;
     private Button mSuspendsButton;
     private Button mPanelsButton;
+    private TextView mAreaTv;
+    private TextView mUdTv;
+    private TextView mCdTv;
+    private TextView mLockTv;
+    private TextView mSuspendTv;
+    private TextView mPanelTv;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,8 +104,28 @@ public class CalculatorFragment extends Fragment {
 
                     mSuspendCeiling = new SuspendCeiling(intX, intY);
                     CeilingLab.getCeilingLab(getActivity()).addCeiling(mSuspendCeiling);
+                    mNameTextView.setText(mSuspendCeiling.getName());
+                    mNameTextView.setVisibility(View.VISIBLE);
+                    mRenameButton.setVisibility(View.VISIBLE);
+                    mRenameButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FragmentManager fm = getActivity().getSupportFragmentManager();
+                            RenameDialog dialog = RenameDialog.newInstance(mSuspendCeiling.getName());
+                            dialog.setTargetFragment(CalculatorFragment.this, REQUEST_NAME);
+                            dialog.show(fm, RENAME_DIALOG);
+                        }
+                    });
+                    mAreaTv.setVisibility(View.VISIBLE);
+                    mSuspendTv.setVisibility(View.VISIBLE);
+                    mLockTv.setVisibility(View.VISIBLE);
+                    mPanelTv.setVisibility(View.VISIBLE);
+                    mCdTv.setVisibility(View.VISIBLE);
+                    mUdTv.setVisibility(View.VISIBLE);
+                    mAreaButton.setVisibility(View.VISIBLE);
                     mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
                     mUdButton.setText(mSuspendCeiling.getUd28().toString());
+                    mUdButton.setVisibility(View.VISIBLE);
                     mUdButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -101,6 +133,7 @@ public class CalculatorFragment extends Fragment {
                         }
                     });
                     mCd60Button.setText(mSuspendCeiling.getCd().toString());
+                    mCd60Button.setVisibility(View.VISIBLE);
                     mCd60Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -108,6 +141,7 @@ public class CalculatorFragment extends Fragment {
                         }
                     });
                     mSuspendsButton.setText(mSuspendCeiling.getSuspend().toString());
+                    mSuspendsButton.setVisibility(View.VISIBLE);
                     mSuspendsButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -115,6 +149,7 @@ public class CalculatorFragment extends Fragment {
                         }
                     });
                     mLocksButton.setText(mSuspendCeiling.getLock().toString());
+                    mLocksButton.setVisibility(View.VISIBLE);
                     mLocksButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -122,6 +157,7 @@ public class CalculatorFragment extends Fragment {
                         }
                     });
                     mPanelsButton.setText(mSuspendCeiling.getPanel().toString());
+                    mPanelsButton.setVisibility(View.VISIBLE);
                     mPanelsButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -143,6 +179,16 @@ public class CalculatorFragment extends Fragment {
         mLocksButton = (Button)v.findViewById(R.id.locks_button);
         mSuspendsButton = (Button)v.findViewById(R.id.suspends_button);
         mPanelsButton = (Button)v.findViewById(R.id.panels_button);
+        mNameTextView = (TextView) v.findViewById(R.id.calculator_name_text);
+        mRenameButton = (Button) v.findViewById(R.id.calculator_rename_button);
+
+        mAreaTv = (TextView) v.findViewById(R.id.calculator_area_title);
+        mPanelTv = (TextView) v.findViewById(R.id.calculator_panel_title);
+        mCdTv = (TextView) v.findViewById(R.id.calculator_cd_title);
+        mUdTv = (TextView) v.findViewById(R.id.calculator_ud_title);
+        mSuspendTv = (TextView) v.findViewById(R.id.calculator_suspend_title);
+        mLockTv = (TextView) v.findViewById(R.id.calculator_lock_title);
+
 
         return v;
     }
@@ -175,4 +221,14 @@ public class CalculatorFragment extends Fragment {
         dialog.show(fm, TAG);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode!= Activity.RESULT_OK) return;
+        if (requestCode == REQUEST_NAME){
+            String inputName = (String)data.getSerializableExtra(RenameDialog.EXTRA_NAME);
+            mSuspendCeiling.setName(inputName);
+            mNameTextView.setText(mSuspendCeiling.getName());
+
+        }
+    }
 }

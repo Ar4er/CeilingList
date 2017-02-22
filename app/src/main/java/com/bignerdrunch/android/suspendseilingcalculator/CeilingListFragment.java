@@ -27,6 +27,8 @@ import java.util.ArrayList;
 
 public class CeilingListFragment extends ListFragment {
 
+    public static final int REQUEST_NAME_FOR_LIST = 0;
+
     ArrayList<SuspendCeiling> mCeilings;
 
     @Override
@@ -42,6 +44,7 @@ public class CeilingListFragment extends ListFragment {
         i.putExtra(PagerCeilingsActivity.EXTRA_UUID, sc.getId());
         startActivity(i);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,12 @@ public class CeilingListFragment extends ListFragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.list_menu, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case (R.id.menu_new_ceiling):
@@ -123,9 +132,9 @@ public class CeilingListFragment extends ListFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.list_menu, menu);
+    public void onPause() {
+        super.onPause();
+        CeilingLab.getCeilingLab(getActivity()).saveList();
     }
 
     private class CeilingListAdapter extends ArrayAdapter<SuspendCeiling>{
@@ -141,18 +150,15 @@ public class CeilingListFragment extends ListFragment {
                         .inflate(R.layout.list_item_layout, parent, false);
             }
             final SuspendCeiling sc = getItem(position);
-
-            TextView areaTextView = (TextView) convertView.findViewById(R.id.area_string);
+            TextView titleTextView = (TextView) convertView.findViewById(R.id.list_item_title_string);
+            titleTextView.setText(sc.getName());
+            TextView areaTextView = (TextView) convertView.findViewById(R.id.list_item_area);
             areaTextView.setText(sc.areaToString());
-            TextView sizesTextView = (TextView) convertView.findViewById(R.id.sizes_string);
+            TextView sizesTextView = (TextView) convertView.findViewById(R.id.list_item_sizes_string);
             sizesTextView.setText(sc.toString());
             return convertView;
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        CeilingLab.getCeilingLab(getActivity()).saveList();
-    }
+
 }

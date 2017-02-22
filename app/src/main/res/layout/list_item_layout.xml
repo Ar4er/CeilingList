@@ -5,30 +5,43 @@
     android:layout_height="wrap_content"
     android:background="@drawable/background_activated">
 
+    <TextView
+        android:id="@+id/list_item_area"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ListItemArea"
+        android:textColor="@color/fbutton_color_alizarin"
+        android:text="20 m2"/>
+
 
 
     <TextView
-        android:id="@+id/sizes_string"
+        android:id="@+id/list_item_title_string"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:text="3000 na 4000"
-        style="@style/NormalTextSize"
+        style="@style/ListItemTitle"
         />
 
     <TextView
-        android:id="@+id/area_string"
+
+        android:id="@+id/list_item_sizes_string"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:paddingTop="4dp"
+        android:layout_below="@+id/list_item_title_string"
         android:text="20 m2"
-        android:layout_below="@+id/sizes_string"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        style="@style/NormalTextSize"/>
+        style="@style/NormalTextSize"
+        android:textColor="@color/fbutton_color_belize_hole"/>
 
 
 </RelativeLayout>

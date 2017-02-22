@@ -1,7 +1,5 @@
 package com.bignerdrunch.android.suspendseilingcalculator.details;
 
-import com.bignerdrunch.android.suspendseilingcalculator.Detail;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

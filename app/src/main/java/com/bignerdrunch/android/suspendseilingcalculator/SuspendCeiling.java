@@ -9,6 +9,7 @@ import com.bignerdrunch.android.suspendseilingcalculator.details.Ud28;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import java.util.UUID;
  * Created by ar4er25 on 2/10/2017.
  */
 
-public class SuspendCeiling {
+public class SuspendCeiling implements Serializable{
     private static final String UD28 = "ud28";
     private static final String CD60 = "cd";
     private static final String LOCK = "lock";
@@ -39,6 +40,7 @@ public class SuspendCeiling {
     private int mY;
     private Date mDate;
     UUID mId;
+    private String mName;
 
     public SuspendCeiling(int x, int y) {
         mId = UUID.randomUUID();
@@ -81,8 +83,6 @@ public class SuspendCeiling {
 
     }
 
-
-
     public int getX() {
         return mX;
     }
@@ -121,19 +121,29 @@ public class SuspendCeiling {
 
     @Override
     public String toString() {
-        return String.format(" потолок %d * %d",   mX, mY);
+        return String.format("%d * %d",   mX, mY);
     }
 
      public String areaToString(){
-         return mArea+" M2";
+         return String.format("%.1f m2", mArea);
      }
 
     public String getFormatDate(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy");
         return  simpleDateFormat.format(mDate);
     }
+    public String getName() {
+        if (mName == null) {
+            double x = mX / 1000.0;
+            double y = mY / 1000.0;
+            return String.format("потолок %.1f * %.1f", x, y);
+        }
+        return mName;
+    }
 
-
+    public void setName(String name) {
+        mName = name;
+    }
 }
 
 

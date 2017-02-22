@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.bignerdrunch.android.suspendseilingcalculator.R;
 
+import java.util.UUID;
+
 /**
  * Created by ar4er25 on 2/18/2017.
  */
@@ -11,6 +13,10 @@ import com.bignerdrunch.android.suspendseilingcalculator.R;
 
 public class SuspendImageDialog extends SingleImageDialog {
     public static final String EXTRA_SUSPEND_DESCRIPTION = "com.bignerdrunch.android.suspendseilingcalculator.imageDialogs.EXTRA_SUSPEND_DESCRIPTION";
+
+
+
+
 
     @Override
     public int getImageId() {
