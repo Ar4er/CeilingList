@@ -15,9 +15,10 @@ public class Cd60 extends Detail {
         countOfUpSIde(x, y);
     }
 
-    public Cd60(JSONObject jsonObject, String cd60) throws JSONException {
-        super(jsonObject, cd60);
+    public Cd60(int anInt) {
+        super(anInt);
     }
+
 
     @Override
     public int calculateCount(int x, int y) {

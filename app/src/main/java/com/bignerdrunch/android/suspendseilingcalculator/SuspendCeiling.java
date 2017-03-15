@@ -19,16 +19,7 @@ import java.util.UUID;
  */
 
 public class SuspendCeiling implements Serializable{
-    private static final String UD28 = "ud28";
-    private static final String CD60 = "cd";
-    private static final String LOCK = "lock";
-    private static final String SUSPEND = "suspend";
-    private static final String PANEL = "panel";
-    private static final String AREA = "area";
-    private static final String MX = "mx";
-    private static final String MY = "my";
-    private static final String MDATE = "date";
-    private static final String ID = "id";
+
 
     private Ud28 mUd28;
     private Cd60 mCd;
@@ -39,7 +30,7 @@ public class SuspendCeiling implements Serializable{
     private int mX;
     private int mY;
     private Date mDate;
-    UUID mId;
+    private UUID mId;
     private String mName;
 
     public SuspendCeiling(int x, int y) {
@@ -54,33 +45,48 @@ public class SuspendCeiling implements Serializable{
         mDate = new Date();
         mArea = mX*mY/ 1000000.0;
     }
-    public SuspendCeiling (JSONObject json) throws  JSONException {
-        mId = UUID.fromString(json.getString(ID));
-        mX = json.getInt(MX);
-        mY = json.getInt(MY);
-        mDate = new Date(json.getLong(MDATE));
-        mArea = json.getDouble(AREA);
-        mCd = new Cd60(json.getJSONObject(CD60), CD60);
-        mUd28 = new Ud28(json.getJSONObject(UD28), UD28);
-        mLock = new Lock(json.getJSONObject(LOCK), LOCK);
-        mPanel = new Panel(json.getJSONObject(PANEL), PANEL);
-        mSuspend = new Suspend(json.getJSONObject(SUSPEND), SUSPEND);
+    public SuspendCeiling(UUID id){
+        mId = id;
     }
 
-    public JSONObject toJSON()throws JSONException{
-        JSONObject  json = new JSONObject();
-        json.put(UD28, mUd28.toJSON(UD28));
-        json.put(CD60, mCd.toJSON(CD60));
-        json.put(LOCK, mLock.toJSON(LOCK));
-        json.put(SUSPEND, mSuspend.toJSON(SUSPEND));
-        json.put(PANEL, mPanel.toJSON(PANEL));
-        json.put(AREA, mArea);
-        json.put(MX, mX);
-        json.put(MY, mY);
-        json.put(MDATE, mDate.getTime());
-        json.put(ID, mId.toString());
-        return json;
+    public void setArea(double area) {
+        mArea = area;
+    }
 
+    public void setCd(Cd60 cd) {
+        mCd = cd;
+    }
+
+    public void setDate(Date date) {
+        mDate = date;
+    }
+
+    public void setId(UUID id) {
+        mId = id;
+    }
+
+    public void setLock(Lock lock) {
+        mLock = lock;
+    }
+
+    public void setPanel(Panel panel) {
+        mPanel = panel;
+    }
+
+    public void setSuspend(Suspend suspend) {
+        mSuspend = suspend;
+    }
+
+    public void setUd28(Ud28 ud28) {
+        mUd28 = ud28;
+    }
+
+    public void setX(int x) {
+        mX = x;
+    }
+
+    public void setY(int y) {
+        mY = y;
     }
 
     public int getX() {

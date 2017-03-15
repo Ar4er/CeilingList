@@ -19,10 +19,9 @@ public abstract class Detail implements Serializable {
     private int count;
     public abstract int calculateCount(int x, int y);
 
-    public Detail(JSONObject json, String key_count) throws JSONException {
-        mX = json.getInt(JSON_X);
-        mY = json.getInt(JSON_Y);
-        count = json.getInt(key_count);
+
+    public Detail(int c){
+        count = c;
     }
 
     public Detail(int x, int y) {
@@ -50,6 +49,10 @@ public abstract class Detail implements Serializable {
         json.put(JSON_X, mX);
         json.put(JSON_Y, mY);
         return json;
+    }
+
+    public int getCount() {
+        return count;
     }
 }
 

@@ -58,16 +58,13 @@ public class SetOfCountsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         UUID args = (UUID)getArguments().getSerializable(UUID_EXTRA);
-        mSuspendCeiling = CeilingLab.getCeilingLab(getActivity()).getById(args);
+        mSuspendCeiling = CeilingLab.getCeilingLab(getActivity()).getSuspendCeiling(args);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.set_of_items, container, false);
-        if (NavUtils.getParentActivityName(getActivity())!=null) {
-            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         mAreaButton = (Button) v.findViewById(R.id.area_button);
         mAreaButton.setText(String.format("%.2f m2", mSuspendCeiling.getArea()));
@@ -124,17 +121,11 @@ public class SetOfCountsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case android.R.id.home:
-                if (NavUtils.getParentActivityName(getActivity())!=null){
-                    NavUtils.navigateUpFromSameTask(getActivity());
-                }
-                return true;
             case R.id.delete_botton_set_menu:
                 CeilingLab.getCeilingLab(getActivity()).deliteCeiling(mSuspendCeiling);
                 ViewPager vp = (ViewPager) getActivity().findViewById(R.id.ceiling_pager);
                 vp.getAdapter().notifyDataSetChanged();
                 NavUtils.navigateUpFromSameTask(getActivity());
-
 
             default: return super.onOptionsItemSelected(item);
         }
@@ -145,4 +136,9 @@ public class SetOfCountsFragment extends Fragment {
         dialog.show(fm, TAG);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        CeilingLab.getCeilingLab(getActivity()).updateCeiling(mSuspendCeiling);
+    }
 }

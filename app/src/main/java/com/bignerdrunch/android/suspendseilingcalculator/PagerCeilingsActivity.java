@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * Created by ar4er25 on 2/10/2017.
  */
 
-public class PagerCeilingsActivity extends FragmentActivity {
+public class PagerCeilingsActivity extends AppCompatActivity {
     public static final String EXTRA_UUID = "com.bignerdrunch.android.suspendseilingcalculator.EXTRA_UUID";
 
     ViewPager mViewPager;

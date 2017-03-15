@@ -78,7 +78,7 @@ public class CalculatorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,   Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.calculator_fragment , container, false);
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+
         editX = (EditText) v.findViewById(R.id.edit_X);
         editX.addTextChangedListener(new TextWatcher() {
             @Override
@@ -230,11 +230,6 @@ public class CalculatorFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CalculatorActivity.class);
                 startActivity(intent);
                 return true;
-            case android.R.id.home:
-                if (NavUtils.getParentActivityName(getActivity()) != null) {
-                    NavUtils.navigateUpFromSameTask(getActivity());
-                } return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -250,8 +245,8 @@ public class CalculatorFragment extends Fragment {
         if (requestCode == REQUEST_NAME){
             String inputName = (String)data.getSerializableExtra(RenameDialog.EXTRA_NAME);
             mSuspendCeiling.setName(inputName);
+            CeilingLab.getCeilingLab(getActivity()).updateCeiling(mSuspendCeiling);
             mNameTextView.setText(mSuspendCeiling.getName());
-
         }
     }
 

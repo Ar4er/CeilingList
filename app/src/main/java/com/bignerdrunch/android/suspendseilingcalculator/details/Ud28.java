@@ -12,8 +12,8 @@ public class Ud28 extends Detail {
     public Ud28(int x, int y) {
         super(x, y);
     }
-    public Ud28(JSONObject json, String key_count) throws JSONException {
-        super(json, key_count);
+    public Ud28(int anInt) {
+        super(anInt);
     }
 
     @Override

@@ -13,8 +13,8 @@ public class Lock extends Detail {
         super(x, y);
     }
 
-    public Lock(JSONObject json, String key_count) throws JSONException {
-        super(json, key_count);
+    public  Lock(int anInt) {
+        super(anInt);
     }
 
     @Override

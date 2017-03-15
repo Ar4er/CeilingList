@@ -6,6 +6,6 @@ import android.support.v4.app.Fragment;
 public class MainActivity extends SingleFragmentActivity {
     @Override
     public Fragment createFagment() {
-       return new CeilingListFragment();
+       return new CeilingListFragmentRecycler();
     }
 }

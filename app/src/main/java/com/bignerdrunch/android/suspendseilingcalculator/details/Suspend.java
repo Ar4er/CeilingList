@@ -13,9 +13,10 @@ public class Suspend extends Detail {
         super(x, y);
     }
 
-    public Suspend(JSONObject json, String key_count) throws JSONException {
-        super(json, key_count);
+    public Suspend(int anInt) {
+        super(anInt);
     }
+
     @Override
     public int calculateCount(int x, int y) {
         int countInOneLine = (x-400)/1000+1;
