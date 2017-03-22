@@ -33,14 +33,14 @@ public class CeilingCursorWrapper extends CursorWrapper {
         SuspendCeiling ceiling = new SuspendCeiling(UUID.fromString(uuidString));
         ceiling.setName(getString(getColumnIndex(CeilingTable.Cols.Name)));
         ceiling.setDate(new Date(getLong(getColumnIndex(CeilingTable.Cols.Date))));
-        ceiling.setArea(getInt(getColumnIndex(CeilingTable.Cols.Area)));
+        ceiling.setArea(getDouble(getColumnIndex(CeilingTable.Cols.Area)));
         ceiling.setCd(new Cd60(getInt(getColumnIndex(CeilingTable.Cols.Cd60))));
         ceiling.setUd28(new Ud28(getInt(getColumnIndex(CeilingTable.Cols.Ud28))));
         ceiling.setLock(new Lock(getInt(getColumnIndex(CeilingTable.Cols.Lock))));
         ceiling.setSuspend(new Suspend(getInt(getColumnIndex(CeilingTable.Cols.Suspend))));
         ceiling.setPanel(new Panel(getInt(getColumnIndex(CeilingTable.Cols.Panel))));
-        ceiling.setX(getInt(getColumnIndex(CeilingTable.Cols.X)));
-        ceiling.setY(getInt(getColumnIndex(CeilingTable.Cols.Y)));
+        ceiling.setX(getDouble(getColumnIndex(CeilingTable.Cols.X)));
+        ceiling.setY(getDouble(getColumnIndex(CeilingTable.Cols.Y)));
 
         return ceiling;
     }

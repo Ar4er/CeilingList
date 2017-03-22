@@ -1,10 +1,13 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +20,16 @@ import java.util.UUID;
  */
 
 public class PagerCeilingsActivity extends AppCompatActivity {
-    public static final String EXTRA_UUID = "com.bignerdrunch.android.suspendseilingcalculator.EXTRA_UUID";
+    private static final String EXTRA_UUID = "com.bignerdrunch.android.suspendseilingcalculator.EXTRA_UUID";
 
-    ViewPager mViewPager;
-    ArrayList<SuspendCeiling> mCeilings;
+   private ViewPager mViewPager;
+   private ArrayList<SuspendCeiling> mCeilings;
+
+    public static Intent newIntent(Context packageContext, UUID ceilingId){
+        Intent intent = new Intent(packageContext, PagerCeilingsActivity.class);
+        intent.putExtra(EXTRA_UUID, ceilingId);
+        return intent;
+    }
 
 
 
@@ -31,6 +40,8 @@ public class PagerCeilingsActivity extends AppCompatActivity {
         mViewPager.setId(R.id.ceiling_pager);
         setContentView(mViewPager);
 
+        final UUID ceilingId = (UUID) getIntent().getSerializableExtra(EXTRA_UUID);
+
         mCeilings = CeilingLab.getCeilingLab(this).getList();
 
         FragmentManager fm = getSupportFragmentManager();
@@ -38,7 +49,7 @@ public class PagerCeilingsActivity extends AppCompatActivity {
             @Override
             public Fragment getItem(int position) {
                 SuspendCeiling sc = mCeilings.get(position);
-                return SetOfCountsFragment.newInstance(sc.getId());
+                return CardSetFragment.newInstance(sc.getId());
             }
 
             @Override
@@ -46,10 +57,27 @@ public class PagerCeilingsActivity extends AppCompatActivity {
                 return mCeilings.size();
             }
         });
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        UUID uuid = (UUID) getIntent().getSerializableExtra(EXTRA_UUID);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                SuspendCeiling sc = mCeilings.get(position);
+                setTitle(sc.getName());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
         for (int i = 0; i <mCeilings.size() ; i++) {
-            if (mCeilings.get(i).getId().equals(uuid)){
+            if (mCeilings.get(i).getId().equals(ceilingId)){
                 mViewPager.setCurrentItem(i);
                 break;
             }

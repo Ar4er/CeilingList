@@ -19,7 +19,14 @@ public class Panel extends Detail {
 
     @Override
     public int calculateCount(int x, int y) {
-        return x*y/3000000;
+        int count;
+        int area = x*y;
+        if (area<3000000) {
+              count = 1;
+        }
+        count = area/3000000+1;
+
+        return count;
     }
 
 }

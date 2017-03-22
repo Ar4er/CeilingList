@@ -27,23 +27,25 @@ public class SuspendCeiling implements Serializable{
     private Suspend mSuspend;
     private Panel mPanel;
     private double mArea;
-    private int mX;
-    private int mY;
+    private double mX;
+    private double mY;
     private Date mDate;
     private UUID mId;
     private String mName;
 
-    public SuspendCeiling(int x, int y) {
+    public SuspendCeiling(double x, double y) {
         mId = UUID.randomUUID();
         mX = x;
         mY = y;
-        mUd28 = new Ud28(mX, mY);
-        mCd = new Cd60(mX, mY);
-        mLock = new Lock(mX, mY);
-        mSuspend = new Suspend(mX, mY);
-        mPanel = new Panel(mX, mY);
+        int xMM =(int) x*1000;
+        int yMM =(int) y*1000;
+        mUd28 = new Ud28(xMM, yMM);
+        mCd = new Cd60(xMM, yMM);
+        mLock = new Lock(xMM, yMM);
+        mSuspend = new Suspend(xMM, yMM);
+        mPanel = new Panel(xMM, yMM);
         mDate = new Date();
-        mArea = mX*mY/ 1000000.0;
+        mArea = mX*mY;
     }
     public SuspendCeiling(UUID id){
         mId = id;
@@ -81,19 +83,19 @@ public class SuspendCeiling implements Serializable{
         mUd28 = ud28;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         mX = x;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         mY = y;
     }
 
-    public int getX() {
+    public double getX() {
         return mX;
     }
 
-    public int getY() {return mY;}
+    public double getY() {return mY;}
 
     public UUID getId() {
         return mId;
@@ -127,7 +129,7 @@ public class SuspendCeiling implements Serializable{
 
     @Override
     public String toString() {
-        return String.format("%d * %d",   mX, mY);
+        return String.format("%.1f * %.1f",   mX, mY);
     }
 
      public String areaToString(){
@@ -140,9 +142,7 @@ public class SuspendCeiling implements Serializable{
     }
     public String getName() {
         if (mName == null) {
-            double x = mX / 1000.0;
-            double y = mY / 1000.0;
-            return String.format("потолок %.1f * %.1f", x, y);
+            return String.format("потолок %.1f * %.1f", mX, mY);
         }
         return mName;
     }

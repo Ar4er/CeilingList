@@ -2,11 +2,11 @@
     <string name="app_name">калькулятор потолка</string>
     <string name="title_size_ansver">Задать размер комнаты в миллиметрах </string>
     <string name="title_area">общая площадь помещения:</string>
-    <string name="title_ud">количество стенового профиля(ud-28): </string>
-    <string name="title_cd">колличество основного профиля:(сd-27/60):</string>
+    <string name="title_ud">стеновой профиль (ud-28): </string>
+    <string name="title_cd">основной профиль (сd-27/60):</string>
     <string name="title_locks">замки:</string>
     <string name="title_suspends">подвесы:</string>
-    <string name="title_panels">количество листов гипсокартона:</string>
+    <string name="title_panels">гипсокартон:</string>
     <string name="x_side">по оси Х</string>
     <string name="y_side">по оси У</string>
     <string name="calculate_order">посчитать</string>
@@ -25,4 +25,8 @@
     <string name="panel_name">гипсокартон</string>
     <string name="potolok_string">Потолок</string>
     <string name="dialog_rename_title">Введите название комнаты</string>
+    <string name="send_string">отправить</string>
+    <string name="message_string">%1$s:\nCD-27/60 - %2$s\nUD28 - %3$s\nподвесы - %4$s\nзамки - %5$s\nгипсокартон - %6$s</string>
+    <string name="send_report">отправить калькуляцию потолка</string>
+    <string name="rename">изменить имя</string>
 </resources>

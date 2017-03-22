@@ -108,9 +108,9 @@ public class CalculatorFragment extends Fragment {
             public void onClick(View v) {
                 try {
 
-                    int intX = Integer.parseInt(x);
-                    int intY = Integer.parseInt(y);
-                    if (intX<600||intY<600){
+                    double intX = Double.parseDouble(x);
+                    double intY = Double.parseDouble(y);
+                    if (intX<0.6||intY<0.6){
                         throw new NumberFormatException();
                     }
                     mSuspendCeiling = new SuspendCeiling(intX, intY);
@@ -188,31 +188,31 @@ public class CalculatorFragment extends Fragment {
         mUdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(UdImageDialog.getNewInstance(mSuspendCeiling.getUd28().toString()), SetOfCountsFragment.UD_IMAGE);
+                showDialog(UdImageDialog.getNewInstance(mSuspendCeiling.getUd28().toString()), CardSetFragment.UD_IMAGE);
             }
         });
         mCd60Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(CdImageDialog.getNewInstance(mSuspendCeiling.getCd().toString()), SetOfCountsFragment.CD_IMAGE);
+                showDialog(CdImageDialog.getNewInstance(mSuspendCeiling.getCd().toString()), CardSetFragment.CD_IMAGE);
             }
         });
         mSuspendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(SuspendImageDialog.getNewInstance(mSuspendCeiling.getSuspend().toString()), SetOfCountsFragment.SUSPEND_IMAGE);
+                showDialog(SuspendImageDialog.getNewInstance(mSuspendCeiling.getSuspend().toString()), CardSetFragment.SUSPEND_IMAGE);
             }
         });
         mLocksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(LockImageDialog.getNewInstance(mSuspendCeiling.getLock().toString()), SetOfCountsFragment.LOCK_IMAGE);
+                showDialog(LockImageDialog.getNewInstance(mSuspendCeiling.getLock().toString()), CardSetFragment.LOCK_IMAGE);
             }
         });
         mPanelsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(PanelImageDialog.getNewInstance(mSuspendCeiling.getPanel().toString()), SetOfCountsFragment.LOCK_IMAGE);
+                showDialog(PanelImageDialog.getNewInstance(mSuspendCeiling.getPanel().toString()), CardSetFragment.LOCK_IMAGE);
             }
         });
     }
