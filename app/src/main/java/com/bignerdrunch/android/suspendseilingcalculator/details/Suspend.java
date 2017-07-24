@@ -8,20 +8,30 @@ import org.json.JSONObject;
  */
 
 public class Suspend extends Detail {
+    private Cd60 mCd60;
 
-    public Suspend(int x, int y) {
-        super(x, y);
+    public Suspend(Cd60 cd60) {
+        super(cd60);
+        mCd60 = cd60;
+        setCount (calculateCount());
+    }
+
+    @Override
+    public int calculateCount(int x, int y) {
+        return 0;
     }
 
     public Suspend(int anInt) {
         super(anInt);
     }
 
-    @Override
-    public int calculateCount(int x, int y) {
-        int countInOneLine = (x-400)/1000+1;
-        int lines = Math.round((y-400)/1000)+1;
-        return countInOneLine*lines;
+
+    public int calculateCount() {
+        if (mCd60.countOfUpSIde()==0){
+            return 0;
+        }
+        int countInOneLine = (mCd60.getCeilingLong()-800)/1000+1;
+        return countInOneLine*mCd60.calcuateUpLines();
     }
 }
 

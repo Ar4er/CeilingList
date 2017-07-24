@@ -1,16 +1,18 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
 import com.bignerdrunch.android.suspendseilingcalculator.details.Cd60;
+import com.bignerdrunch.android.suspendseilingcalculator.details.Connector;
+import com.bignerdrunch.android.suspendseilingcalculator.details.Detail;
 import com.bignerdrunch.android.suspendseilingcalculator.details.Lock;
 import com.bignerdrunch.android.suspendseilingcalculator.details.Panel;
+import com.bignerdrunch.android.suspendseilingcalculator.details.Screw;
+import com.bignerdrunch.android.suspendseilingcalculator.details.ScrewCeiling;
+import com.bignerdrunch.android.suspendseilingcalculator.details.ScrewPanel;
+import com.bignerdrunch.android.suspendseilingcalculator.details.ScrewWall;
 import com.bignerdrunch.android.suspendseilingcalculator.details.Suspend;
 import com.bignerdrunch.android.suspendseilingcalculator.details.Ud28;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,12 +22,24 @@ import java.util.UUID;
 
 public class SuspendCeiling implements Serializable{
 
-
     private Ud28 mUd28;
     private Cd60 mCd;
     private Lock mLock;
     private Suspend mSuspend;
+    private Connector mConector;
     private Panel mPanel;
+    private ScrewCeiling mScrewCeiling;
+    private ScrewWall mScrewWall;
+    private ScrewPanel mScrewPanel;
+    private int mCdStep;
+    private int mPanelSize;
+    private int mPanelLayers;
+    private Materials mWallMaterial;
+    private Materials mCeilingBaseMaterial;
+    private Screw mScrewConcrete;
+    private Screw mScrewsWood;
+    private Screw mScrewsDryWolls;
+
     private double mArea;
     private double mX;
     private double mY;
@@ -33,22 +47,96 @@ public class SuspendCeiling implements Serializable{
     private UUID mId;
     private String mName;
 
-    public SuspendCeiling(double x, double y) {
-        mId = UUID.randomUUID();
+    public SuspendCeiling() {}
+
+    public SuspendCeiling (double x
+            , double y
+            , double cdFirstSize
+            , double cdSecendSize
+            , int cdStep
+            , int PanelSize
+            , int panelLayers
+            , String defaultName
+            , Materials wallMat
+            , Materials ceilingBaseMat){
         mX = x;
         mY = y;
-        int xMM =(int) x*1000;
-        int yMM =(int) y*1000;
+        mCdStep = cdStep;
+        mPanelSize = PanelSize;
+        mPanelLayers = panelLayers;
+        double xMMd =  x*1000;
+        int xMM =(int) xMMd;
+        double yMMd = y*1000;
+        int yMM =(int) yMMd;
         mUd28 = new Ud28(xMM, yMM);
-        mCd = new Cd60(xMM, yMM);
-        mLock = new Lock(xMM, yMM);
-        mSuspend = new Suspend(xMM, yMM);
-        mPanel = new Panel(xMM, yMM);
+        mCd = new Cd60(xMM, yMM, cdFirstSize, cdSecendSize, cdStep);
+        mLock = new Lock(mCd);
+        mSuspend = new Suspend(mCd);
+        mConector = new Connector(mCd);
+        mPanel = new Panel(xMM, yMM, PanelSize, panelLayers, cdStep);
         mDate = new Date();
         mArea = mX*mY;
+        mScrewCeiling = new ScrewCeiling(mSuspend);
+        mScrewPanel = new ScrewPanel(mPanel, panelLayers, cdStep);
+        mScrewWall = new ScrewWall(xMM, yMM);
+        mId = UUID.randomUUID();
+        mName = defaultName;
+        mWallMaterial = wallMat;
+        mCeilingBaseMaterial = ceilingBaseMat;
+        screwsInitialization(mScrewCeiling, mCeilingBaseMaterial);
+        screwsInitialization(mScrewWall, mWallMaterial);
     }
+
     public SuspendCeiling(UUID id){
         mId = id;
+    }
+
+    public Screw getScrewConcrete() {
+        return mScrewConcrete;
+    }
+
+    public void setScrewConcrete(Screw screwConcrete) {
+        mScrewConcrete = screwConcrete;
+    }
+
+    public Screw getScrewsDryWolls() {
+        return mScrewsDryWolls;
+    }
+
+    public void setScrewsDryWolls(Screw screwsDryWolls) {
+        mScrewsDryWolls = screwsDryWolls;
+    }
+
+    public Screw getScrewsWood() {
+        return mScrewsWood;
+    }
+
+    public void setScrewsWood(Screw screwsWood) {
+        mScrewsWood = screwsWood;
+    }
+
+    public ScrewCeiling getScrewCeiling() {
+        return mScrewCeiling;
+    }
+
+    public void setScrewCeiling(ScrewCeiling screwCeiling) {
+        mScrewCeiling = screwCeiling;
+    }
+
+    public ScrewPanel getScrewPanel() {
+        return mScrewPanel;
+    }
+
+    public void setScrewPanel(ScrewPanel screwPanel) {
+        mScrewPanel = screwPanel;
+    }
+
+    public ScrewWall getScrewWall() {
+        return mScrewWall;
+    }
+
+    public void setScrewWall(ScrewWall screwWall) {
+        mScrewWall = screwWall;
     }
 
     public void setArea(double area) {
@@ -79,6 +167,10 @@ public class SuspendCeiling implements Serializable{
         mSuspend = suspend;
     }
 
+    public void setConector(Connector conector) {
+        mConector = conector;
+    }
+
     public void setUd28(Ud28 ud28) {
         mUd28 = ud28;
     }
@@ -95,7 +187,9 @@ public class SuspendCeiling implements Serializable{
         return mX;
     }
 
-    public double getY() {return mY;}
+    public double getY() {
+        return mY;
+    }
 
     public UUID getId() {
         return mId;
@@ -109,7 +203,13 @@ public class SuspendCeiling implements Serializable{
         return mSuspend;
     }
 
-    public Lock getLock() {return mLock;}
+    public Lock getLock() {
+        return mLock;
+    }
+
+    public Connector getConnector() {
+        return mConector;
+    }
 
     public Ud28 getUd28() {
         return mUd28;
@@ -127,29 +227,107 @@ public class SuspendCeiling implements Serializable{
         return mDate;
     }
 
+    public int getCdStep() {
+        return mCdStep;
+    }
+
+    public void setCdStep(int cdStep) {
+        mCdStep = cdStep;
+    }
+
+    public int getPanelLayers() {
+        return mPanelLayers;
+    }
+
+    public void setPanelLayers(int panelLayers) {
+        mPanelLayers = panelLayers;
+    }
+
+    public int getPanelSize() {
+        return mPanelSize;
+    }
+
+    public void setPanelSize(int panelSize) {
+        mPanelSize = panelSize;
+    }
+
     @Override
     public String toString() {
-        return String.format("%.1f * %.1f",   mX, mY);
+        return String.format("%.1f м * %.1f м ",   mX, mY);
     }
 
      public String areaToString(){
          return String.format("%.1f m2", mArea);
      }
 
-    public String getFormatDate(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, yyyy");
-        return  simpleDateFormat.format(mDate);
-    }
+
     public String getName() {
-        if (mName == null) {
-            return String.format("потолок %.1f * %.1f", mX, mY);
-        }
         return mName;
     }
 
     public void setName(String name) {
         mName = name;
     }
+
+    public Materials getCeilingBaseMaterial() {
+        return mCeilingBaseMaterial;
+    }
+
+    public void setCeilingBaseMaterial(Materials ceilingBaseMaterial) {
+        mCeilingBaseMaterial = ceilingBaseMaterial;
+    }
+
+    public Connector getConector() {
+        return mConector;
+    }
+
+    public Materials getWallMaterial() {
+        return mWallMaterial;
+    }
+
+    public void setWallMaterial(Materials wallMaterial) {
+        mWallMaterial = wallMaterial;
+    }
+
+    private void screwsInitialization(Detail screw, Materials material){
+        switch (material){
+            case CONCRETE:
+                if (mScrewConcrete==null) {
+                    mScrewConcrete = new Screw(screw);
+                }else {
+                  mScrewConcrete.addScrews(screw);
+                }
+                break;
+            case WOOD:
+                if(mScrewsWood==null){
+                    mScrewsWood = new Screw(screw);
+                }else {
+                 mScrewsWood.addScrews(screw);
+                }
+                break;
+            case DRYWALL:
+                if (mScrewsDryWolls==null){
+                    mScrewsDryWolls = new Screw(screw);
+                }else {
+                    mScrewsDryWolls.addScrews(screw);
+                }
+                break;
+        }
+        if (mScrewConcrete==null)
+           mScrewConcrete = new Screw(0);
+        if (mScrewsWood==null)
+            mScrewsWood = new Screw(0);
+        if (mScrewsDryWolls==null)
+            mScrewsDryWolls = new Screw(0);
+
+
+
+
+    }
+
+
+
 }
+
 
 

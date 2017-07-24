@@ -20,6 +20,7 @@ import android.widget.EditText;
 public class RenameDialog extends DialogFragment {
 
     public static final String EXTRA_NAME ="com.bignerdrunch.android.suspendseilingcalculator.RenameDialog.EXTRA_NAME";
+
     private String inputName;
 
     public static RenameDialog newInstance(String name){

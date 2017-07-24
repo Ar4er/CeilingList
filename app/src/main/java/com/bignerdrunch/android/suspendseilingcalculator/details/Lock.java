@@ -8,9 +8,12 @@ import org.json.JSONObject;
  */
 
 public class Lock extends Detail {
+    private Cd60 mCd60;
 
-    public Lock(int x, int y) {
-        super(x, y);
+    public Lock(Cd60 cd60) {
+        super(cd60);
+        mCd60 = cd60;
+        setCount (calculateCount());
     }
 
     public  Lock(int anInt) {
@@ -19,8 +22,11 @@ public class Lock extends Detail {
 
     @Override
     public int calculateCount(int x, int y) {
-        int xLines = Math.round(y/400)-1;
-        int yLines = Math.round((x-400)/1000)+1;
-        return xLines*yLines;
+        return 0;
     }
+
+    public int calculateCount(){
+        return mCd60.calcuateUpLines()*mCd60.getDownLines();
+    }
+
 }

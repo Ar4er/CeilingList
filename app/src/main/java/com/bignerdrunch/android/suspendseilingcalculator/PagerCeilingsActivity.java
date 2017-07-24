@@ -24,13 +24,12 @@ public class PagerCeilingsActivity extends AppCompatActivity {
 
    private ViewPager mViewPager;
    private ArrayList<SuspendCeiling> mCeilings;
-
+    //метод для занесения ид объекта при вызове активности
     public static Intent newIntent(Context packageContext, UUID ceilingId){
         Intent intent = new Intent(packageContext, PagerCeilingsActivity.class);
         intent.putExtra(EXTRA_UUID, ceilingId);
         return intent;
     }
-
 
 
     @Override
@@ -57,23 +56,7 @@ public class PagerCeilingsActivity extends AppCompatActivity {
                 return mCeilings.size();
             }
         });
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                SuspendCeiling sc = mCeilings.get(position);
-                setTitle(sc.getName());
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
 
         for (int i = 0; i <mCeilings.size() ; i++) {
@@ -82,9 +65,5 @@ public class PagerCeilingsActivity extends AppCompatActivity {
                 break;
             }
         }
-
     }
-
-
-
 }

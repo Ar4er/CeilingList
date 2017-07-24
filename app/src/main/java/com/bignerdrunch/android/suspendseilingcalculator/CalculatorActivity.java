@@ -12,6 +12,6 @@ public class CalculatorActivity extends SingleFragmentActivity {
 
     @Override
     public Fragment createFagment() {
-        return new CalculatorFragment();
+        return new CalculatorFagmentNew();
     }
 }

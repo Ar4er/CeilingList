@@ -27,7 +27,7 @@ public class CeilingLab {
 
     private static CeilingLab sCeilingLab;
 
-    private ArrayList<SuspendCeiling> mList;
+    private static ArrayList<SuspendCeiling> mList;
 
     private CeilingLab(Context context){
         mContext = context.getApplicationContext();
@@ -49,8 +49,35 @@ public class CeilingLab {
         values.put(CeilingTable.Cols.Ud28, ceiling.getUd28().getCount());
         values.put(CeilingTable.Cols.X, ceiling.getX());
         values.put(CeilingTable.Cols.Y, ceiling.getY());
-
+        values.put(CeilingTable.Cols.screwCeiling, ceiling.getScrewCeiling().getCount());
+        values.put(CeilingTable.Cols.screwWall, ceiling.getScrewWall().getCount());
+        values.put(CeilingTable.Cols.screwPanel, ceiling.getScrewPanel().getCount());
+        values.put(CeilingTable.Cols.Cd60Size3,  ceiling.getCd().getCdCountOf3Size().getCount());
+        values.put(CeilingTable.Cols.Cd60Size4, isTwoSizes(ceiling) ? ceiling.getCd().getCdCountOf4Size().getCount() : 0);
+        values.put(CeilingTable.Cols.CONNECTOR, ceiling.getConnector().getCount());
+        values.put(CeilingTable.Cols.CD_STEP, ceiling.getCdStep());
+        values.put(CeilingTable.Cols.PANEL_SIZE, ceiling.getPanelSize());
+        values.put(CeilingTable.Cols.PANEL_LAYERS, ceiling.getPanelLayers());
+        values.put(CeilingTable.Cols.WALL_MATERIAL, ceiling.getWallMaterial().toString());
+        values.put(CeilingTable.Cols.CEILING_MATERIAL, ceiling.getCeilingBaseMaterial().toString());
+        values.put(CeilingTable.Cols.DW_SCREWS_25SIZE, isTwoLayers(ceiling) ? ceiling.getScrewPanel().getFirstLayerScrews().getCount() : 0);
+        values.put(CeilingTable.Cols.DW_SCREWS_40SIZE, isTwoLayers(ceiling) ? ceiling.getScrewPanel().getSecondLayerScrews().getCount() : 0);
+        values.put(CeilingTable.Cols.SCREWS_CONCRETE, ceiling.getScrewConcrete().getCount());
+        values.put(CeilingTable.Cols.SCREWS_DRYWALL, ceiling.getScrewsDryWolls().getCount());
+        values.put(CeilingTable.Cols.SCREWS_WOOD, ceiling.getScrewsWood().getCount());
         return values;
+    }
+    //метод поверки наличия двух размеров каркаса в потолке
+    private static boolean isTwoSizes(SuspendCeiling sc){
+        if (sc.getCd().getCdCountOf4Size()==null)
+            return false;
+        else return true;
+    }
+
+    private static boolean isTwoLayers(SuspendCeiling sc){
+        if (sc.getPanelLayers()!=2)
+            return  false;
+        else return true;
     }
 
 

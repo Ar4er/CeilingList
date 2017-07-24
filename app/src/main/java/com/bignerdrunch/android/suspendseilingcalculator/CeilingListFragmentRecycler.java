@@ -1,11 +1,13 @@
 package com.bignerdrunch.android.suspendseilingcalculator;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,17 +17,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bignerdrunch.android.suspendseilingcalculator.SlideAnimHelper.ItemTouchHelperAdapter;
+import com.bignerdrunch.android.suspendseilingcalculator.SlideAnimHelper.ItemTouchHelperViewHolder;
+import com.bignerdrunch.android.suspendseilingcalculator.SlideAnimHelper.OnStartDragListener;
+import com.bignerdrunch.android.suspendseilingcalculator.SlideAnimHelper.SimpleItemTouchHelperCallbak;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by ar4er25 on 3/5/2017.
  */
 
-public class CeilingListFragmentRecycler extends Fragment {
+public class CeilingListFragmentRecycler extends Fragment implements OnStartDragListener {
     private RecyclerView mCeilingRecyclerView;
     private CeilingAdapter mAdapter;
     private LinearLayout mEmptyView;
-    private Button mNewButton;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,8 +47,8 @@ public class CeilingListFragmentRecycler extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ceiling_list_recycler, container, false);
         mEmptyView = (LinearLayout) view.findViewById(R.id.empty_view);
-        mNewButton = (Button)view.findViewById(R.id.new_button);
-        mNewButton.setOnClickListener(new View.OnClickListener() {
+        Button newButton = (Button) view.findViewById(R.id.new_button);
+        newButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startCalculator();
@@ -57,10 +66,46 @@ public class CeilingListFragmentRecycler extends Fragment {
         mCeilingRecyclerView.setAdapter(mAdapter);
         mAdapter.setCeilings(ceilings);
         mAdapter.notifyDataSetChanged();
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallbak(mAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(mCeilingRecyclerView);
         setVisibleEmptyView();
     }
 
-    private class CeilingHoder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_new_ceiling:
+                startCalculator();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    private void startCalculator() {
+        Intent intent = new Intent(getActivity(), CalculatorActivity.class);
+        startActivity(intent);
+    }
+    private void setVisibleEmptyView(){
+        if (mAdapter.getCeilings().size()==0){
+            mEmptyView.setVisibility(View.VISIBLE);
+        }else {
+            mEmptyView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private class CeilingHoder extends RecyclerView.ViewHolder implements View.OnClickListener, ItemTouchHelperViewHolder {
         private TextView mTitleTextView;
         private TextView mAreaTextView;
         private TextView mSizesTextView;
@@ -84,8 +129,18 @@ public class CeilingListFragmentRecycler extends Fragment {
             Intent intent = PagerCeilingsActivity.newIntent(getActivity(), mCeiling.getId());
             startActivity(intent);
         }
+
+        @Override
+        public void onItemSelected() {
+
+        }
+
+        @Override
+        public void onItemClear() {
+        }
     }
-    private class CeilingAdapter extends RecyclerView.Adapter<CeilingHoder>{
+    private class CeilingAdapter extends RecyclerView.Adapter<CeilingHoder> implements ItemTouchHelperAdapter {
+
         private List<SuspendCeiling> mCeilings;
 
         public CeilingAdapter(List<SuspendCeiling> ceilings) {
@@ -112,35 +167,29 @@ public class CeilingListFragmentRecycler extends Fragment {
         public int getItemCount() {
             return mCeilings.size();
         }
-    }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.list_menu, menu);
-    }
+        @Override
+        public boolean onItemMove(int fromPosition, int toPosition) {
+            Collections.swap(mCeilings, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
+            return true;
+        }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-       switch (item.getItemId()){
-           case R.id.menu_new_ceiling:
-               startCalculator();
-               return true;
-           default:
-               return super.onOptionsItemSelected(item);
-       }
-    }
-    private void startCalculator() {
-        Intent intent = new Intent(getActivity(), CalculatorActivity.class);
-        startActivity(intent);
-    }
-    private void setVisibleEmptyView(){
-        if (mAdapter.getItemCount()==0){
-            mEmptyView.setVisibility(View.VISIBLE);
-        }else {
-            mEmptyView.setVisibility(View.INVISIBLE);
+        @Override
+        public void onItemDismiss(int position) {
+            SuspendCeiling delC = mCeilings.get(position);
+            CeilingLab.getCeilingLab(getActivity()).deliteCeiling(delC);
+            mCeilings.remove(position);
+            notifyItemRemoved(position);
+            setVisibleEmptyView();
+        }
+
+        public List<SuspendCeiling> getCeilings() {
+            return mCeilings;
         }
     }
+
+
 
 
 }
